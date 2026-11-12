@@ -1,10 +1,10 @@
 // Batch Pass licence — same pattern as PubRescue. The activation code is shown by
 // Stripe after payment; the app stores only the SHA-256 of valid codes.
 export const CONFIG = {
-  // TODO: replace with the real Stripe Payment Link once the product is created.
-  checkoutUrl: '#',
-  // SHA-256 hashes of valid activation codes (generate with the same tool as PubRescue).
-  codeHashes: [],
+  // Stripe Payment Link for the XPSRescue Batch Pass (€9 one-time).
+  checkoutUrl: 'https://buy.stripe.com/4gM4gy13lf07dP0ePX4AU04',
+  // SHA-256 hashes of valid activation codes (shown by Stripe after payment).
+  codeHashes: ['65adb510f29b2c66d9f122c268f530456c32f9e9c29a029353073dce3d4f5c75'],
   price: '€9',
 };
 const KEY = 'xpsrescue.license';
