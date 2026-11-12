@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open & convert XPS files to PDF — free, in your browser | XPSRescue</title>
+<meta name="description" content="Open old Microsoft XPS (.xps/.oxps) files and convert them to PDF directly in your browser. Your files stay on your device — nothing is uploaded. Free for one file, €9 one-time for whole folders.">
+<link rel="canonical" href="https://ycmmm-hub.github.io/xpsrescue/">
+<link rel="stylesheet" href="css/app.css">
+<meta name="theme-color" content="#1f5f8b">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"XPSRescue","applicationCategory":"UtilitiesApplication","operatingSystem":"Web browser (ChromeOS, Windows, macOS, Linux)","offers":[{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Convert one .xps file at a time to PDF"},{"@type":"Offer","price":"9","priceCurrency":"EUR","description":"Batch Pass: whole folders to a ZIP of PDFs"}]}
+</script>
+</head>
+<body>
+<header class="top"><div class="wrap"><strong class="logo">XPSRescue</strong><nav><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></nav></div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Open XPS files without Windows — convert .xps to PDF</h1>
+    <p class="lead">Turn Microsoft XPS &amp; OpenXPS files into PDF directly in your browser.</p>
+    <ul class="promises">
+      <li><b>Your files stay on your device</b> — nothing is uploaded.</li>
+      <li><b>Free</b> for one file at a time. No account, no watermark.</li>
+      <li><b>Whole folders: <span class="price-copy">€9</span> once</b> — every file converted into one ZIP.</li>
+    </ul>
+  </section>
+
+  <section id="tool" class="tool" aria-label="Converter">
+    <label id="drop" class="drop" for="pick">
+      <span class="drop-title">Drop a .xps file here</span>
+      <span class="drop-sub">or click to choose — the PDF is ready in about a second</span>
+      <input id="pick" type="file" accept=".xps,.oxps" multiple hidden>
+    </label>
+    <div class="tool-actions">
+      <label class="btn ghost">Choose a whole folder<input id="pick-folder" type="file" webkitdirectory multiple hidden></label>
+      <button id="download-all" class="btn" hidden>Download all as ZIP</button>
+    </div>
+    <p id="summary" class="summary" aria-live="polite"></p>
+    <ul id="files" class="files"></ul>
+    <p id="license-state" class="ok-msg"></p>
+  </section>
+
+  <section class="why">
+    <h2>Why now?</h2>
+    <p>XPS is Microsoft's abandoned "XML Paper Specification" document format. The built-in <b>XPS Viewer was removed from Windows 10 and 11</b>, and Macs, Chromebooks and Linux never opened it. Yet people still receive .xps files — invoices, statements, exports from the old "Microsoft XPS Document Writer" printer. XPSRescue turns them into PDF on any device.</p>
+  </section>
+
+  <section id="how" class="how">
+    <h2>How it works</h2>
+    <div class="example">
+      <ol class="steps">
+        <li><b>Drop</b> a .xps file (or a whole folder with the Batch Pass).</li>
+        <li><b>Wait a second</b> — the file is read and laid out as a PDF inside your browser.</li>
+        <li><b>Download</b> the PDF. Print it, share it, or archive it.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <h2>Pricing</h2>
+    <div class="plans">
+      <div class="plan"><h3>Free</h3><p class="amount">€0</p><ul><li>One file at a time, as often as you like</li><li>Full-quality PDF</li><li>No watermark, no account</li></ul></div>
+      <div class="plan featured"><h3>Batch Pass</h3><p class="amount"><span class="price-copy">€9</span> <small>one-time</small></p><ul><li>Whole folders in one go</li><li>One ZIP, sub-folders kept</li><li>Lifetime, no subscription</li><li>30-day refund</li></ul>
+        <a id="buy" class="btn" href="#" target="_blank" rel="noopener">Buy the Batch Pass</a></div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2>Questions</h2>
+    <details open><summary>Are my files uploaded anywhere?</summary><p>No. Your XPS files never leave your device: the conversion runs inside your browser.</p></details>
+    <details><summary>What is an .xps or .oxps file?</summary><p>XPS (XML Paper Specification) is a fixed-layout document format from Microsoft, similar to PDF. OpenXPS (.oxps) is the standardised version. Both are supported.</p></details>
+    <details><summary>Can I try before paying?</summary><p>Yes — convert as many single files as you want for free. The Batch Pass only saves you from doing them one by one.</p></details>
+    <details><summary>A file failed — what now?</summary><p>Some unusual or damaged files may not convert cleanly yet. If you bought the Batch Pass and it does not work for your files, you get a full refund.</p></details>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>XPSRescue is not affiliated with Microsoft. XPS is a trademark of Microsoft Corporation.</p>
+  <p>Support: <a href="mailto:nouvellesentreprises.avs@gmail.com">nouvellesentreprises.avs@gmail.com</a></p>
+</footer>
+
+<div id="paywall" class="modal" hidden>
+  <div class="card" role="dialog" aria-labelledby="pw-title">
+    <h2 id="pw-title">Convert whole folders at once</h2>
+    <p>The free version converts one file at a time. The <b>Batch Pass</b> converts every file you drop and gives you one ZIP — one payment, no subscription, 30-day refund.</p>
+    <a id="paywall-buy" class="btn" href="#" target="_blank" rel="noopener">Buy for <span class="price-copy">€9</span></a>
+    <form id="activate">
+      <label for="code">Already paid? Enter the activation code shown after payment:</label>
+      <div class="row"><input id="code" autocomplete="off" spellcheck="false" placeholder="XPSR-XXXX-XXXX"><button class="btn ghost" type="submit">Activate</button></div>
+      <p id="code-msg" class="code-msg" aria-live="polite"></p>
+    </form>
+    <button id="close-paywall" class="link">Not now</button>
+  </div>
+</div>
+
+<script src="vendor/pdf-lib.min.js"></script>
+<script src="vendor/fontkit.umd.min.js"></script>
+<script src="vendor/fflate.js"></script>
+<script src="js/xps.js"></script>
+<script type="module" src="js/track.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
