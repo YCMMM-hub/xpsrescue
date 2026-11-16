@@ -81,3 +81,6 @@ section { margin: 40px 0; }
 .article h1 { font-size: clamp(26px, 5vw, 34px); line-height: 1.2; margin-top: 32px; }
 .cta { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 24px 0; }
 @media (max-width: 640px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 260px; } }
+
+.warn{color:#9a5b00;font-size:13px;margin-top:4px;grid-column:1/-1}
+@media(prefers-color-scheme:dark){.warn{color:#f0b35a}}

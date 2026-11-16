@@ -70,10 +70,11 @@
     const files = unzipSync(xpsBytes instanceof Uint8Array ? xpsBytes : new Uint8Array(xpsBytes));
     const pdf = await PDFDocument.create(); pdf.registerFontkit(global.fontkit);
     const fontByUri = {};
-    for (const n of Object.keys(files)) if (/\.odttf$/i.test(n)) { try { fontByUri['/' + n] = await pdf.embedFont(deobf(n, files[n]), { subset: true }); } catch (e) {} }
+    const lost = { fonts: 0, images: 0, text: 0, shapes: 0 }; global.XPS.lastWarnings = lost; // content that could not be rendered (never silent)
+    for (const n of Object.keys(files)) if (/\.odttf$/i.test(n)) { try { fontByUri['/' + n] = await pdf.embedFont(deobf(n, files[n]), { subset: true }); } catch (e) { lost.fonts++; } }
     const fallback = await pdf.embedFont(StandardFonts.Helvetica);
     const imgCache = {};
-    async function img(src) { if (src in imgCache) return imgCache[src]; const k = src.replace(/^\//, ''); let r = null; try { if (/\.png$/i.test(k)) r = await pdf.embedPng(files[k]); else if (/\.jpe?g$/i.test(k)) r = await pdf.embedJpg(files[k]); } catch (e) {} return imgCache[src] = r; }
+    async function img(src) { if (src in imgCache) return imgCache[src]; const k = src.replace(/^\//, ''); let r = null; try { if (/\.png$/i.test(k)) r = await pdf.embedPng(files[k]); else if (/\.jpe?g$/i.test(k)) r = await pdf.embedJpg(files[k]); } catch (e) {} if (!r) lost.images++; return imgCache[src] = r; }
     const rtOf = kids => { for (const c of kids) if (c.tag && c.tag.endsWith('.RenderTransform')) { const mt = c.children.find(x => x.tag === 'MatrixTransform'); if (mt) return fromXps(mt.attrs.Matrix); } return null; };
     const brushOf = kids => { const pf = kids.find(c => c.tag === 'Path.Fill'); if (!pf) return null; for (const b of pf.children) { if (b.tag === 'LinearGradientBrush') return { kind: 'lin', node: b, at: b.attrs }; if (b.tag === 'RadialGradientBrush') return { kind: 'rad', node: b, at: b.attrs }; if (b.tag === 'ImageBrush') return { kind: 'img', at: b.attrs }; } return null; };
 
@@ -95,14 +96,14 @@
           } else {
             const fill = hex(at.Fill), stroke = hex(at.Stroke), sw = parseFloat(at.StrokeThickness) || 0;
             const o = { x: 0, y: H * K, scale: K }; if (fill) { o.color = fill; o.opacity = op; } if (stroke) { o.borderColor = stroke; o.borderWidth = (sw || 1) * scaleOf(m) * K; o.borderOpacity = op; }
-            try { page.drawSvgPath(svgPath(at.Data, m), o); } catch (e) {}
+            try { page.drawSvgPath(svgPath(at.Data, m), o); } catch (e) { lost.shapes++; }
           }
         }
         else if (tag === 'Glyphs' && at.UnicodeString != null) {
           const font = (at.FontUri && fontByUri[at.FontUri]) || fallback; const em = parseFloat(at.FontRenderingEmSize) || 12;
           const [X, Y] = ap(ctm, parseFloat(at.OriginX) || 0, parseFloat(at.OriginY) || 0);
           const txt = at.UnicodeString;
-          try { page.drawText(txt, { x: X * K, y: (H - Y) * K, size: em * scaleOf(ctm) * K, font, color: hex(at.Fill) || rgb(0, 0, 0), opacity: op, rotate: degrees(-angleOf(ctm)) }); } catch (e) {}
+          try { page.drawText(txt, { x: X * K, y: (H - Y) * K, size: em * scaleOf(ctm) * K, font, color: hex(at.Fill) || rgb(0, 0, 0), opacity: op, rotate: degrees(-angleOf(ctm)) }); } catch (e) { lost.text++; }
         }
         else { await walk(node.children, page, H, ctm, op); }
         if (clipped) page.pushOperators(popGraphicsState());
@@ -121,5 +122,5 @@
     return pdf.save();
   }
 
-  global.XPS = { convertToPdf };
+  global.XPS = { convertToPdf, lastWarnings: null };
 })(window);
